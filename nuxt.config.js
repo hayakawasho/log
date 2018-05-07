@@ -6,13 +6,14 @@ module.exports = {
     title: 'my-project',
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0, user-scalable=no, shrink-to-fit=no' },
       { hid: 'description', name: 'description', content: 'Nuxt.js project' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
+  srcDir: 'src/',
   /*
   ** Customize the progress bar color
   */
@@ -21,10 +22,22 @@ module.exports = {
   ** Build configuration
   */
   build: {
+    vendor: [
+      'gsap',
+    ],
+    postcss: {
+      plugins: {
+        'postcss-cssnext': {
+          browsers: ['last 2 versions', 'IE >= 11', 'Android >= 5.0']
+        },
+        'postcss-flexbugs-fixes': {},
+        'css-mqpacker': {},
+      }
+    },
     /*
-    ** Run ESLint on save
-    */
-    extend (config, { isDev, isClient }) {
+     ** Run ESLint on save
+     */
+    extend(config, { isDev, isClient }) {
       if (isDev && isClient) {
         config.module.rules.push({
           enforce: 'pre',
@@ -33,6 +46,14 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
+      // find the stylus loader
+      const stylus = config.module.rules[0].options.loaders.stylus.find(e => e.loader == 'stylus-loader')
+      // extend default options
+      Object.assign(stylus.options, {
+        import: [
+          //'~/assets/styles/settings/index.styl',
+        ]
+      })
     }
   }
 }
