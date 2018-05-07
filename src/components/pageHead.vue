@@ -3,10 +3,7 @@ include ../_include/mixin/_index.pug
 
 header.l-header(role="banner")
   .g-pageHead
-    .g-pageHead__logo.u-flex.u-flex--v-c
-      .g-pageHead__logoIn
-        svg: use(xlink:href="#logoWide")
-        nuxt-link(to="/")
+
 
 </template>
 

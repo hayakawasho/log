@@ -2,7 +2,6 @@
 include ../_include/mixin/_index.pug
 
 #root
-  //-include ../_include/sprite.svg
   nav-component
   .l-nav
     button.c-navicon(data-module="Drawer" data-target=".g-menu")
@@ -20,9 +19,11 @@ include ../_include/mixin/_index.pug
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import HeaderComponent from '~/components/pageHead'
 import FooterComponent from '~/components/pageFoot'
 import NavComponent from '~/components/nav'
+import webFont from 'webfontloader'
 
 export default {
   mounted () {
@@ -40,8 +41,6 @@ export default {
   },
   methods: {
     loadWebfont() {
-      const webFont = require('webfontloader');
-
       return new Promise((resolve, reject) => {
         webFont.load({
           classes: false,
@@ -52,9 +51,9 @@ export default {
               'YakuHanJP:n4,n7',
               'Neue Frutiger:n4,n7',
             ],
-            urls: [
-              '/assets/styles/fonts.css',
-            ],
+            //urls: [
+            //  '/assets/styles/fonts.css',
+            //],
           },
           fontloading: (familyName, fvd) => {
             console.log('fontloading -', familyName, fvd)
@@ -75,21 +74,24 @@ export default {
     },
   },
 
-  //async created() {
-  //  this.$store.commit('initClient')
-  //  try {
-  //    await this.loadWebfont()
-  //  } catch (err) {
-  //    console.log('[App - created]', err)
-  //  } finally {
-  //    console.log('[App - created] created done')
-  //    this.$store.commit('changeIsFontLoaded', true)
-  //  }
-  //}
+  async created() {
+    this.$store.commit('initClient')
+    try {
+      await this.loadWebfont()
+    } catch (err) {
+      console.log('[App - created]', err)
+    } finally {
+      console.log('[App - created] created done')
+      this.$store.commit('changeIsFontLoaded', true)
+    }
+  }
 }
+
 
 </script>
 
 <style lang="stylus" scoped>
+#root
+  font-family var(--fontFamily);
 
 </style>

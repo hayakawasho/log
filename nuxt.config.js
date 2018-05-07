@@ -1,4 +1,5 @@
 module.exports = {
+  mode: 'spa',
   /*
   ** Headers of the page
   */
@@ -14,16 +15,17 @@ module.exports = {
     ]
   },
   srcDir: 'src/',
-  /*
-  ** Customize the progress bar color
-  */
   loading: { color: '#3B8070' },
+  css: [
+    '~assets/styles/main.styl'
+  ],
   /*
   ** Build configuration
   */
   build: {
     vendor: [
       'gsap',
+      'axios',
     ],
     postcss: {
       plugins: {
@@ -51,7 +53,7 @@ module.exports = {
       // extend default options
       Object.assign(stylus.options, {
         import: [
-          '~/assets/styles/settings/index.styl',
+          '~assets/styles/settings/index.styl',
         ]
       })
     }
