@@ -51,7 +51,7 @@ module.exports = {
       // extend default options
       Object.assign(stylus.options, {
         import: [
-          //'~/assets/styles/settings/index.styl',
+          '~/assets/styles/settings/index.styl',
         ]
       })
     }
