@@ -1,0 +1,60 @@
+@keyframes lineAnim {
+  0% {
+    transform: scaleX(1);
+    transform-origin: right top;
+    animation-timing-function: $easeInQuart;
+  }
+  33.3% {
+    transform: scaleX(0);
+    transform-origin: right top;
+    animation-timing-function: $easeOutQuart;
+  }
+  33.4% {
+    transform-origin: left top;
+  }
+  66.7% {
+    transform: scaleX(1);
+    transform-origin: left top;
+  }
+}
+
+
+@keyframes scrollDown {
+  0% {
+    transform: scaleY(1);
+    transform-origin: 50% 100% 0;
+    animation-timing-function: $easeInQuart;
+  }
+  33.3% {
+    transform: scaleY(0);
+    transform-origin: 50% 100% 0;
+    animation-timing-function: $easeOutQuart;
+  }
+  33.4% {
+    transform-origin: 50% 0 0;
+  }
+  66.7% {
+    transform: scaleY(1);
+    transform-origin: 50% 0 0;
+  }
+}
+
+@keyframes scrollUp {
+  0% {
+    transform: scaleY(1);
+    transform-origin: 50% 0 0;
+    animation-timing-function: $easeInQuart;
+  }
+  33.3% {
+    transform: scaleY(0);
+    transform-origin: 50% 0 0;
+    animation-timing-function: $easeOutQuart;
+  }
+  33.4% {
+    transform-origin: 50% 100% 0;
+  }
+  66.7% {
+    transform: scaleY(1);
+    transform-origin: 50% 100% 0;
+  }
+}

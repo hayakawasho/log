@@ -1,0 +1,33 @@
+/**
+* check out media queries ranges for a better syntax
+
+* 20em: 320px
+* 30em: 480px
+* 35.5em: 568px
+* 37.5em: 600px
+* 48em: 768px
+* 56.25em: 900px
+* 60em: 960px
+* 64em: 1024px
+* 75em: 1200px
+* 80em: 1280px
+* 85.375em: 1366px
+* 100em: 1600px
+*
+*/
+
+@custom-media --sp only screen and (width < 60em);
+@custom-media --pc only screen and (width >\= 60em);
+
+@custom-media --isXXSmall only screen and (width <\= 20em);
+@custom-media --isXSmall only screen and (width > 20em) and (width < 30em);
+@custom-media --isSmall only screen and (width >\= 30em) and (width < 48em);
+@custom-media --isMedium only screen and (width >\= 48em) and (width < 60em);
+@custom-media --isLargeS only screen and (width >\= 60em) and (width < 64em);
+@custom-media --isLargeM only screen and (width >\= 64em) and (width < 80em);
+@custom-media --isLargeL only screen and (width >\= 80em) and (width <\= 85.375em);
+@custom-media --isXLarge only screen and (width > 85.375em) and (width <\= 100em);
+@custom-media --isXXLarge only screen and (width > 100em);
+
+@custom-media --isRetina only screen and only screen and (min-resolution: 1.5dppx);
+
