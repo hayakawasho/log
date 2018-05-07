@@ -1,0 +1,39 @@
+@font-face {
+  font-family: YakuHanJPs;
+  font-weight: normal;
+  src: url("/assets/fonts/YakuHanJPs-Light.woff2") format("woff2"),
+    url("/assets/fonts/YakuHanJPs-Light.woff") format("woff");
+}
+
+@font-face {
+  font-family: YakuHanJP;
+  font-weight: normal;
+  src: url("/assets/fonts/YakuHanJP-DemiLight.woff2") format("woff2"),
+    url("/assets/fonts/YakuHanJP-DemiLight.woff") format("woff");
+}
+
+@font-face {
+  font-family: YakuHanJP;
+  font-weight: bold;
+  src: url("/assets/fonts/YakuHanJP-Bold.woff2") format("woff2"),
+    url("/assets/fonts/YakuHanJP-Bold.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Neue Frutiger";
+  font-weight: normal;
+  src: local("FrutigerNeueLTPro-Book"),
+    url("/assets/fonts/NeueFrutiger-Book.woff2") format("woff2"),
+    url("/assets/fonts/NeueFrutiger-Book.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Neue Frutiger";
+  font-weight: bold;
+  src: local("FrutigerNeueLTPro-Bold"),
+    url("/assets/fonts/NeueFrutiger-Bold.woff2") format("woff2"),
+    url("/assets/fonts/NeueFrutiger-Bold.woff") format("woff");
+}
+
+
+

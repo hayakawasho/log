@@ -1,52 +1,95 @@
-<template>
-  <div>
-    <nuxt/>
-  </div>
+<template lang="pug">
+include ../_include/mixin/_index.pug
+
+#root
+  //-include ../_include/sprite.svg
+  nav-component
+  .l-nav
+    button.c-navicon(data-module="Drawer" data-target=".g-menu")
+      .c-navicon__in
+        - for(var i = 1; i < 5; i++)
+          .c-navicon__line.js-line(class=`_${i}`)
+            span
+  .l-body
+    main.l-bodyInner(role="main")
+      .l-wrapper
+        header-component
+        nuxt
+        footer-component
+
 </template>
 
-<style>
-html {
-  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 16px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
+<script>
+import HeaderComponent from '~/components/pageHead'
+import FooterComponent from '~/components/pageFoot'
+import NavComponent from '~/components/nav'
+
+export default {
+  mounted () {
+    //new AppManager()
+  },
+  components: {
+    HeaderComponent,
+    FooterComponent,
+    NavComponent,
+  },
+  computed: {
+    isFontLoaded() {
+      return this.$store.state.isFontLoaded
+    }
+  },
+  methods: {
+    loadWebfont() {
+      const webFont = require('webfontloader');
+
+      return new Promise((resolve, reject) => {
+        webFont.load({
+          classes: false,
+          timeout: 10000,
+          custom: {
+            families: [
+              'YakuHanJPs:n4',
+              'YakuHanJP:n4,n7',
+              'Neue Frutiger:n4,n7',
+            ],
+            urls: [
+              '/assets/styles/fonts.css',
+            ],
+          },
+          fontloading: (familyName, fvd) => {
+            console.log('fontloading -', familyName, fvd)
+          },
+          fontactive: (familyName, fvd) => {
+            console.log('fontactive -', familyName, fvd)
+          },
+          active: () => {
+            document.body.classList.add('is-webfontLoaded')
+            return resolve()
+          },
+          inactive: () => {
+            console.log('the browser does not support OR if none of the fonts could be loaded')
+            return reject()
+          }
+        })
+      })
+    },
+  },
+
+  //async created() {
+  //  this.$store.commit('initClient')
+  //  try {
+  //    await this.loadWebfont()
+  //  } catch (err) {
+  //    console.log('[App - created]', err)
+  //  } finally {
+  //    console.log('[App - created] created done')
+  //    this.$store.commit('changeIsFontLoaded', true)
+  //  }
+  //}
 }
 
-*, *:before, *:after {
-  box-sizing: border-box;
-  margin: 0;
-}
+</script>
 
-.button--green {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
-}
+<style lang="stylus" scoped>
 
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
-}
-
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
-}
-
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
-}
 </style>
