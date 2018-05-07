@@ -34,6 +34,8 @@ module.exports = {
         },
         'postcss-flexbugs-fixes': {},
         'css-mqpacker': {},
+        'postcss-utilities': {},
+        'postcss-easings': {},
       }
     },
     /*

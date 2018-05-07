@@ -87,11 +87,15 @@ export default {
   }
 }
 
-
 </script>
 
-<style lang="stylus" scoped>
-#root
-  font-family var(--fontFamily);
+<style lang="stylus">
+#__nuxt, #__layout
+  position: relative
+  margin: 0
+  padding: 0
+  width: 100%
+  height: 100%
+  overflow: hidden
 
 </style>
