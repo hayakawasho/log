@@ -1,0 +1,7 @@
+mixin picture(srcArray, alt)
+  picture&attributes(attributes)
+    if (srcArray[2])
+      source(media='(min-width: 960px) and (max-width: 1024px)', srcset=srcArray[2])
+    if (srcArray[1])
+      source(media='(max-width: 959px)', srcset=srcArray[1])
+    img(src=srcArray[0], alt=alt)

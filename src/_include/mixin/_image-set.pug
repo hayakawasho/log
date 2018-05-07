@@ -1,0 +1,11 @@
+mixin image-set
+  - var defaultRatio = attributes.ratio || 1
+  - var src = attributes.src
+  - var sources = [];
+  - sources.push(src + ' 1x');
+  - sources.push(src.replace(/\.(.+)$/, '@2x.$1') + ' 2x');
+  //- sources.push(src.replace(/\.(.+)$/, '@3x.$1') + ' 3x');
+  - defaultSource = sources[defaultRatio -1].replace(/\s.+/,'');
+  - delete attributes.src
+
+  img(src=defaultSource srcset=sources.join(', '))&attributes(attributes)
