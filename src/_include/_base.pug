@@ -3,4 +3,6 @@ include ./mixin/_index.pug
 block vars
   - var id = ""
 
-block content
+block wrapper
+  .l-content(data-template=id)
+    block content
