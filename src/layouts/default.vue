@@ -51,9 +51,6 @@ export default {
               'YakuHanJP:n4,n7',
               'Neue Frutiger:n4,n7',
             ],
-            //urls: [
-            //  '/assets/styles/fonts.css',
-            //],
           },
           fontloading: (familyName, fvd) => {
             console.log('fontloading -', familyName, fvd)

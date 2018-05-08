@@ -17,6 +17,7 @@ module.exports = {
   srcDir: 'src/',
   loading: { color: '#3B8070' },
   css: [
+    'sanitize.css',
     '~assets/styles/main.styl'
   ],
   /*
@@ -33,9 +34,9 @@ module.exports = {
           browsers: ['last 2 versions', 'IE >= 11', 'Android >= 5.0']
         },
         'postcss-flexbugs-fixes': {},
-        'css-mqpacker': {},
         'postcss-utilities': {},
         'postcss-easings': {},
+        'css-mqpacker': {},
       }
     },
     /*

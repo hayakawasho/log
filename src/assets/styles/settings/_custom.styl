@@ -16,18 +16,18 @@
 *
 */
 
-@custom-media --sp only screen and (width < 60em);
-@custom-media --pc only screen and (width >\= 60em);
+@custom-media --sp (width < 60em);
+@custom-media --pc (width >\= 60em);
 
-@custom-media --isXXSmall only screen and (width <\= 20em);
-@custom-media --isXSmall only screen and (width > 20em) and (width < 30em);
-@custom-media --isSmall only screen and (width >\= 30em) and (width < 48em);
-@custom-media --isMedium only screen and (width >\= 48em) and (width < 60em);
-@custom-media --isLargeS only screen and (width >\= 60em) and (width < 64em);
-@custom-media --isLargeM only screen and (width >\= 64em) and (width < 80em);
-@custom-media --isLargeL only screen and (width >\= 80em) and (width <\= 85.375em);
-@custom-media --isXLarge only screen and (width > 85.375em) and (width <\= 100em);
-@custom-media --isXXLarge only screen and (width > 100em);
+@custom-media --isXXSmall (width <\= 20em);
+@custom-media --isXSmall (width > 20em) \and (width < 30em);
+@custom-media --isSmall (width >\= 30em) \and (width < 48em);
+@custom-media --isMedium (width >\= 48em) \and (width < 60em);
+@custom-media --isLargeS (width >\= 60em) \and (width < 64em);
+@custom-media --isLargeM (width >\= 64em) \and (width < 80em);
+@custom-media --isLargeL (width >\= 80em) \and (width <\= 85.375em);
+@custom-media --isXLarge (width > 85.375em) \and (width <\= 100em);
+@custom-media --isXXLarge (width > 100em);
 
-@custom-media --isRetina only screen and only screen and (min-resolution: 1.5dppx);
+@custom-media --isRetina only screen \and (min-resolution: 1.5dppx);
 
