@@ -1,8 +1,8 @@
-include ./mixin/_index.pug
+include ./mixins/_index.pug
 
 block vars
   - var id = ""
 
 block wrapper
-  .l-content(data-template=id)
+  main.l-content(data-template=id role="main")
     block content

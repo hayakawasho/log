@@ -1,6 +1,4 @@
 <template lang="pug">
-include ../_include/mixin/_index.pug
-
 #root
   nav-component
   .l-nav
@@ -9,12 +7,11 @@ include ../_include/mixin/_index.pug
         - for(var i = 1; i < 5; i++)
           .c-navicon__line.js-line(class=`_${i}`)
             span
-  .l-body
-    main.l-bodyInner(role="main")
-      .l-wrapper
-        header-component
-        nuxt
-        footer-component
+  .l-wrapper
+    .o-scroll
+      header-component
+      nuxt
+      footer-component
 
 </template>
 
@@ -24,10 +21,11 @@ import HeaderComponent from '~/components/pageHead'
 import FooterComponent from '~/components/pageFoot'
 import NavComponent from '~/components/nav'
 import webFont from 'webfontloader'
+import { AppManager } from "~/assets/scripts/index"
 
 export default {
   mounted () {
-    //new AppManager()
+    //window.App = new AppManager()
   },
   components: {
     HeaderComponent,
@@ -87,6 +85,7 @@ export default {
 </script>
 
 <style lang="stylus">
+
 #__nuxt, #__layout
   position: relative
   margin: 0
@@ -94,5 +93,27 @@ export default {
   width: 100%
   height: 100%
   overflow: hidden
+
+#root
+  position: relative
+  width: 100%
+  height: 100%
+  overflow: hidden
+
+.l-wrapper
+  position: relative
+  z-index: 0
+  min-height: 100vh
+  overflow: hidden
+
+.o-scroll
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  backface-visibility: hidden;
+  z-index: 0;
 
 </style>

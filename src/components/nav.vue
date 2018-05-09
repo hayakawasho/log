@@ -1,5 +1,5 @@
 <template lang="pug">
-include ../_include/mixin/_index.pug
+include ../_include/mixins/_index.pug
 
 nav.g-menu(role="navigation")
   .g-menu__head.js-fadeParents
