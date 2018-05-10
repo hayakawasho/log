@@ -2,11 +2,7 @@
 #root
   nav-component
   .l-nav
-    button.c-navicon(data-module="Drawer" data-target=".g-menu")
-      .c-navicon__in
-        - for(var i = 1; i < 5; i++)
-          .c-navicon__line.js-line(class=`_${i}`)
-            span
+    navicon-Component
   .l-wrapper
     .o-scroll
       header-component
@@ -20,6 +16,7 @@ import { mapGetters } from 'vuex'
 import HeaderComponent from '~/components/pageHead'
 import FooterComponent from '~/components/pageFoot'
 import NavComponent from '~/components/nav'
+import NaviconComponent from '~/components/navicon'
 import webFont from 'webfontloader'
 import { AppManager } from "~/assets/scripts/index"
 
@@ -31,6 +28,7 @@ export default {
     HeaderComponent,
     FooterComponent,
     NavComponent,
+    NaviconComponent,
   },
   computed: {
     isFontLoaded() {
@@ -107,13 +105,26 @@ export default {
   overflow: hidden
 
 .o-scroll
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow-x: hidden;
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
-  backface-visibility: hidden;
-  z-index: 0;
+  position: relative
+  width: 100%
+  height: 100%
+  overflow-x: hidden
+  overflow-y: scroll
+  -webkit-overflow-scrolling: touch
+  backface-visibility: hidden
+  z-index: 0
+
+.l-nav
+  position: fixed
+  top: 0
+  left: 0
+  z-index: 1
+  font-size: 2rem
+  width: 4.8em
+  height: 4.8em
+
+  @media (--sp)
+    width: 2.4em
+    height: 2.4em
 
 </style>

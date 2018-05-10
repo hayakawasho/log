@@ -138,7 +138,7 @@ other
 }
 
 .u-sr-only {
-  //@include hidden-visually();
+  //@util hide-visually
 }
 
 .u-content {
@@ -151,9 +151,15 @@ other
   white-space: nowrap;
 }
 
+
+.u-word-wrap {
+  //@util word-wrap
+}
+
+
 .is-pc {
   .u-opa\:hover {
-    transition: opacity .4s $easeOutExpo;
+    transition: opacity .4s easeOutExpo;
     &:hover {
       opacity: .6;
     }
@@ -180,9 +186,6 @@ other
   height: 100%;
 }
 
-.u-max {
-  max-width: 144rem !important;
-}
 
 .u-flex {
   display: flex;
@@ -221,11 +224,11 @@ other
     flex-direction: column;
   }
 
-  &-jc--space-between {
+  &--jc-spaceBetween {
     justify-content: space-between
   }
 
-  &-jc--space-around {
+  &--jc-spaceAround {
     justify-content: space-around
   }
 
