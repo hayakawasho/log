@@ -8,7 +8,7 @@
       header-component
       nuxt
       footer-component
-
+  #js-clip.c-mask
 </template>
 
 <script>
@@ -17,12 +17,13 @@ import HeaderComponent from '~/components/pageHead'
 import FooterComponent from '~/components/pageFoot'
 import NavComponent from '~/components/nav'
 import NaviconComponent from '~/components/navicon'
-import webFont from 'webfontloader'
-import { AppManager } from "~/assets/scripts/index"
+//import { AppManager } from "~/assets/scripts/index"
 
 export default {
   mounted () {
-    //window.App = new AppManager()
+    //if (!process.server) {
+    //  window.App = new AppManager();
+    //}
   },
   components: {
     HeaderComponent,
@@ -38,6 +39,7 @@ export default {
   methods: {
     loadWebfont() {
       return new Promise((resolve, reject) => {
+        const webFont = require('webfontloader');
         webFont.load({
           classes: false,
           timeout: 10000,
@@ -126,5 +128,23 @@ export default {
   @media (--sp)
     width: 2.4em
     height: 2.4em
+    top: auto
+    bottom: 0
+
+.c-mask
+  position: fixed
+  //z-index: 3
+  top: 0
+  left: -9999px
+  width: 100%
+  height: 100%
+  background: #000
+  overflow: hidden
+
+  .is-menuOpened &, .is-domLoading &
+    left: 0
+
+  .is-domLoading:not(.is-menuOpened) &
+    z-index: 99
 
 </style>

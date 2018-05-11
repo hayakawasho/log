@@ -1,7 +1,7 @@
 <template lang="pug">
 include ../_include/mixins/_index.pug
 
-button.c-navicon(data-target=".g-menu")
+button.c-navicon(data-target=".g-menu" data-module="Drawer" @click="toggle")
   .c-navicon__in
     - for(var i = 1; i < 6; i++)
       .c-navicon__line.js-line(class=`_${i}`)
@@ -12,8 +12,22 @@ button.c-navicon(data-target=".g-menu")
 <script>
 
 export default {
-  methods: {
+  mounted () {
 
+  },
+  created (){
+
+  },
+  methods: {
+    toggle() {
+      this.$store.state.isMenuOpened === true ? this.close() : this.open();
+    },
+    open(){
+      this.$store.commit('changeIsMenuOpened', true)
+    },
+    close() {
+      this.$store.commit('changeIsMenuOpened', false)
+    }
   }
 }
 
@@ -36,6 +50,7 @@ button
   width: 100%
   height: 100%
   background: #333
+  z-index: 10
 
   &:before
     content: ""
@@ -78,6 +93,9 @@ button
     margin: auto
     width: 100%
     height: 2px
+
+    @media (--sp)
+      height: 1.5px
 
     > span
       display: block

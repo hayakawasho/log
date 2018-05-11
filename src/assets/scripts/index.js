@@ -1,12 +1,12 @@
 import util from '~/assets/scripts/utils/util'
 import { dispatch, listen } from '~/assets/scripts/utils/event'
 import UAManager from '~/assets/scripts/core/UAManeger'
-//import ResizeManager from '~/assets/scripts/core/ResizeManager'
+import ResizeManager from '~/assets/scripts/core/ResizeManager'
 //import ScrollManager from '~/assets/scripts/core/ScrollManager'
 import * as Modules from './modules'
 
 const ua = new UAManager()
-//const resizer = new ResizeManager()
+const resizer = new ResizeManager()
 //const scroller = new ScrollManager()
 
 class AppManager {
@@ -25,7 +25,6 @@ class AppManager {
   }
 
   init() {
-    this.loadWebfont()
     document.addEventListener('DOMContentLoaded', this.onDocumentReady);
     dispatch('initModules.App', {
       first: true
@@ -66,11 +65,12 @@ class AppManager {
   }
 
   initGlobals(first) {
+    // scroller.init()
+
     if (first) {
       ua.init()
-      //resizer.init()
+      resizer.init()
     }
-    //scroller.init()
 
     return this;
   }
@@ -83,7 +83,8 @@ class AppManager {
   }
 }
 
-export { app, resizer, scroller, ua, transitionManager }
+
+export { AppManager, resizer, ua }
 
 
 
