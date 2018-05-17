@@ -1,5 +1,0 @@
-import 'babel-polyfill'
-import 'es6-promise/auto'
-import 'intersection-observer'
-import './element'
-import './animationFrame'
