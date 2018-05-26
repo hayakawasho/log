@@ -1,11 +1,11 @@
-import SlideManager from './SlideManager'
+import Core from './Core'
 import { TimelineLite } from 'gsap'
 import Hammer from 'hammerjs'
 import util from '~/assets/scripts/utils/util'
 import { toNumber, last } from 'lodash'
 //import { scroller } from '~/assets/scripts/index';
 
-export default class extends SlideManager {
+export default class extends Core {
 
   constructor(opts) {
     super(opts);
@@ -36,7 +36,7 @@ export default class extends SlideManager {
 
       if (force >= Math.abs(e.deltaY)) return;
 
-      if (this.isAnim === false) {
+      if (this.isAnimating === false) {
         //this.slideUp()
         this.slideDown()
       }
@@ -44,7 +44,7 @@ export default class extends SlideManager {
   }
 
   bind() {
-    
+
   }
 
   addEvent() {
@@ -67,7 +67,7 @@ export default class extends SlideManager {
 
   slideUp() {
     const vh = util.getViewportSize().h;
-    this.isAnim = true;
+    this.isAnimating = true;
 
     if (this.index === 0) {
       this.y = - vh * (this.max - 1);
@@ -81,7 +81,7 @@ export default class extends SlideManager {
           this.onStartSlide(false);
         },
         onComplete: () => {
-          this.isAnim = false;
+          this.isAnimating = false;
           this.onCompleteSlide();
         }
       });
@@ -105,7 +105,7 @@ export default class extends SlideManager {
 
   slideDown() {
     const vh = util.getViewportSize().h;
-    this.isAnim = true;
+    this.isAnimating = true;
 
     if (this.index < this.max) {
       this.index++;
@@ -132,7 +132,7 @@ export default class extends SlideManager {
   }
 
   slideBack() {
-    this.isAnim = true;
+    this.isAnimating = true;
     this.y = -vh * this.max;
     this.tween = TweenLite.set(this.$el, {
       y: this.y,
@@ -164,10 +164,10 @@ export default class extends SlideManager {
 
 
   onCompleteSlide(prev, current) {
-    this.isAnim = false;
+    this.isAnimating = false;
     //new TimelineLite({
     //  onComplete: () => {
-    //    this.isAnim = false;
+    //    this.isAnimating = false;
     //  }
     //});
   }
@@ -181,7 +181,7 @@ export default class extends SlideManager {
 
     if (force >= Math.abs(deltaY)) return;
 
-    if (this.isAnim === false) {
+    if (this.isAnimating === false) {
       switch (scroller.getDirection()) {
         case 'down':
           this.slideDown();
