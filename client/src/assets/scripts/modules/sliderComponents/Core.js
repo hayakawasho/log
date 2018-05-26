@@ -1,4 +1,5 @@
-import AbstractModule from '~/assets/scripts/modules/abstractModule';
+import AbstractModule from '~/assets/scripts/modules/abstractModule'
+import { TimelineLite } from 'gsap'
 
 export default class extends AbstractModule {
   /**
@@ -12,10 +13,10 @@ export default class extends AbstractModule {
     this.index = opts.startIndex ? opts.startIndex : 0
     this.max = opts.length
 
-    this.loop = (
-      opts.loop === "false" ? false : true
-    )
-    this.delta = opts.delta || 1
+    this.opts = {
+      loop: opts.loop === 'false' ? false : true,
+      delta: opts.delta || 1,
+    }
   }
 
   getNext(delta) {
@@ -27,10 +28,10 @@ export default class extends AbstractModule {
 
   checkLoop(next) {
     if (next < 0) {
-      return this.loop ? this.max - 1 : 0
+      return this.opts.loop ? this.max - 1 : 0
     } else {
       if (next > this.max - 1) {
-        return this.loop ? 0 : this.max - 1
+        return this.opts.loop ? 0 : this.max - 1
       } else {
         return next
       }
@@ -38,8 +39,8 @@ export default class extends AbstractModule {
   }
 
   /**
-   * @return current: {Array}
-   * @return prev: {Array}
+   * @return current: {Number} Array
+   * @return prev: {Number} Array
    * @return direction: {Number} +1 to next, -1 to prev
    */
   getEvent(index) {
@@ -65,7 +66,18 @@ export default class extends AbstractModule {
     this.callback(event)
   }
 
-  callback(delta) {
+  callback(event) {
+    const tl = new TimelineLite({
+      paused: true,
+      onComplete: () => {
+        this.isAnimating = true
+        this.complete()
+      }
+    })
+    tl.restart()
+  }
+
+  complete() {
 
   }
 }

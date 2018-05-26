@@ -5,20 +5,20 @@ block vars
   - var id = "home"
 
 block content
-  .c-singlePageScroll
-    .c-singlePageScroll__items(data-module="ViewportHeight, SinglePageScroll")
-      section.c-singlePageScroll__item.u-flex.u-flex--c
+  .o-singlePageScroll
+    .o-singlePageScroll__items(data-module="ViewportHeight, SinglePageScroll")
+      section.o-singlePageScroll__item.u-flex.u-flex--c
         .c-jumbotron__content.u-flex.u-flex--v-c
           h2(data-module="StaggerTo" data-target="._str" data-delay=".1" data-stagger='.01')
             +splitStr('GREEN SPRINGS', '_str')
-      section.c-singlePageScroll__item.u-flex.u-flex--c
+      section.o-singlePageScroll__item.u-flex.u-flex--c
         .c-jumbotron__content.u-flex.u-flex--v-c
-          h2(data-module="StaggerTo" data-targets="._str" data-delay=".1" data-stagger='.01')
+          h2(data-module="StaggerTo" data-target="._str" data-delay=".1" data-stagger='.01')
             +splitStr('EDO TOMOE', '_str')
-      section.c-singlePageScroll__item.u-flex.u-flex--c
+      section.o-singlePageScroll__item.u-flex.u-flex--c
         .c-jumbotron__content.u-flex.u-flex--v-c
           h2 MITSUI & CO.<br>MACHINE TECH
-      section.c-singlePageScroll__item.u-flex.u-flex--c
+      section.o-singlePageScroll__item.u-flex.u-flex--c
         .c-jumbotron__content.u-flex.u-flex--v-c
           h2 THE GUITER IS<br>FOREVER
 
@@ -49,19 +49,6 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.c-singlePageScroll
-  overflow hidden
-
-  &__items
-
-  &__item
-    width 100%
-    height 100%
-
-section.c-singlePageScroll__item
-  width 100%
-  height 100%
-
 .c-jumbotron
   position relative
   width 70%
