@@ -1,31 +1,29 @@
-import Core from './Core'
-import Hammer from 'hammerjs'
+import AbstractModule from '~/assets/scripts/modules/abstractModule'
 import util from '~/assets/scripts/utils/util'
 import { toNumber, last, bindAll } from 'lodash'
 import resizer from '~/assets/scripts/core/Resizer'
 import scroller from '~/assets/scripts/core/Scroller'
-//import { scroller } from '~/assets/scripts/index'
 
-export default class extends Core {
+export default class extends AbstractModule {
 
   constructor(opts) {
     super(opts)
 
     bindAll(this, 'onResize', 'onKey', 'onScroll', 'onClick')
 
-    this.opts = Object.assign({
-      speed: 0.9,
-    }, this.opts)
+    this.isAnimating = false
 
+    this.opts = {
+      speed: 0.9,
+    }
     this.vars = {
+      index: 1,
       scrollY: 0,
       vh: 0,
       ease: Power2.easeInOut,
     }
-    
-    this.tween = false
-    this.index = 1
 
+    this.tween = false
     this.init()
   }
 
@@ -51,8 +49,9 @@ export default class extends Core {
   }
 
   removeEvents() {
-    this.body.removeEventListener('keydown', this.onKey)
+    scroller.off('change', this.onScroll)
     resizer.off('resize:end', this.onResize)
+    this.body.removeEventListener('keydown', this.onKey)
   }
 
   getSize() {
@@ -64,6 +63,8 @@ export default class extends Core {
   }
 
   onKey(e) {
+    if (this.isAnimating) return
+
     if (e.keyCode === 40 || e.keyCode === 32) {
       this.slideDown()
     } else if (e.keyCode === 38) {
@@ -73,184 +74,77 @@ export default class extends Core {
 
   onScroll() {
     const force = 20
+    if (force >= Math.abs(scroller.getAmount()) || this.isAnimating) return
 
-    if (force >= Math.abs(scroller.getAmount())) return
-
-    if (this.isAnimating === false) {
-      switch (scroller.getDirection()) {
-        case 'down':
-          this.slideDown()
-          break
-        case 'up':
-          this.slideUp()
-          break
-      }
+    switch (scroller.getDirection()) {
+      case 'down':
+        this.slideDown()
+        break
+      case 'up':
+        this.slideUp()
+        break
     }
   }
 
   onClick(e) {
     e.preventDefault()
-    //if (this.isAnimating) return
+    if (this.isAnimating) return
     //this.onSkipTo(e)
   }
 
-  callback(event) {
-    super.callback(event)
-  }
-
-  slideToPrev(index) {
-
-  }
-
-  slideToNext(index) {
-    this.goTo(index)
-
-    if (this.index < this.max) {
-      this.index++;
-      this.vars.scrollY = - this.vars.vh * this.index;
-      //this.onNodding(-this.nodding.to.y);
-
-      this.tween = TweenLite.to(this.$el, this.opts.speed, {
-        y: this.vars.scrollY,
-        ease: this.vars.ease,
-        onStart: () => {
-          this.onStartSlide(true);
-        },
-        onComplete: () => {
-          if (this.index === this.max) {
-            this.index = 0;
-            TweenLite.set(this.$el, {
-              y: 0,
-            });
-          }
-          this.isAnimating = false;
-        }
-      });
-    }
-  }
-
   slideDown() {
-    this.isAnimating = true;
+    if (this.max <= this.vars.index) return
 
-    if (this.index < this.max) {
-      this.index++;
-      this.vars.scrollY = - this.vars.vh * this.index;
-      //this.onNodding(-this.nodding.to.y);
-
-      this.tween = TweenLite.to(this.$el, this.opts.speed, {
-        y: this.vars.scrollY,
-        ease: this.vars.ease,
-        onStart: () => {
-          this.onStartSlide(true);
-        },
-        onComplete: () => {
-          if (this.index === this.max) {
-            this.index = 0;
-            TweenLite.set(this.$el, {
-              y: 0,
-            });
-          }
-          this.isAnimating = false;
-        }
-      });
-    }
-  }
-
-
-  resize() {
-    this.vars.scrollY = - this.vars.vh * this.index;
-
-    if (this.tween) this.tween.kill();
-
-    TweenLite.set(this.$el, {
-      y: this.vars.scrollY,
-    });
+    this.vars.index++
+    this.vars.scrollY = - this.vars.vh * this.vars.index
+    this.slideAnim()
   }
 
   slideUp() {
-    this.isAnimating = true;
-
-    if (this.index === 0) {
-      this.vars.scrollY = - this.vars.vh * (this.max - 1);
+    if (this.vars.index === 0) {
+      this.vars.index = this.max - 1
+      this.vars.scrollY = - this.vars.vh * (this.max - 1)
       TweenLite.set(this.$el, {
         y: - this.vars.vh * this.max,
-      });
-      this.tween = TweenLite.to(this.$el, this.opts.speed, {
-        y: this.vars.scrollY,
-        ease: this.vars.ease,
-        onStart: () => {
-          this.onStartSlide(false);
-        },
-        onComplete: () => {
-          this.isAnimating = false;
-          //this.complete()
-        }
-      });
-      this.index = this.max - 1;
-    } else if (this.index > 1) {
-      //this.onNodding(this.nodding.to.y);
-      this.index--;
-      this.vars.scrollY = - this.vars.vh * this.index;
-      this.tween = TweenLite.to(this.$el, this.opts.speed, {
-        y: this.vars.scrollY,
-        ease: this.vars.ease,
-        onStart: () => {
-          this.onStartSlide(false);
-        },
-        onComplete: () => {
-          this.isAnimating = false;
-          //this.complete()
-        }
-      });
+      })
+      this.slideAnim()
+    } else if (1 < this.vars.index) {
+      this.vars.index--
+      this.vars.scrollY = - this.vars.vh * this.vars.index
+      this.slideAnim()
     }
   }
 
-  slideBack() {
-    this.isAnimating = true;
-    this.vars.scrollY = - this.vars.vh * this.max;
-    this.tween = TweenLite.set(this.$el, {
-      y: this.vars.scrollY,
-    });
-    this.onNodding(this.nodding.to.y);
-    this.enable = false;
-    this.index = 1;
-    this.vars.scrollY = - this.vars.vh * this.index;
+  slideAnim() {
     this.tween = TweenLite.to(this.$el, this.opts.speed, {
       y: this.vars.scrollY,
       ease: this.vars.ease,
       onStart: () => {
-        this.onStartSlide(false);
+        this.start()
       },
       onComplete: () => {
-        this.isAnimating = false;
+        this.complete()
       }
-    });
+    })
   }
 
-  onSlide(down) {
-
+  start() {
+    this.isAnimating = true
   }
 
-  onStartSlide(down) {
-    down === true ? this.onSlide(true) : this.onSlide(false);
-    // canvas flip
-  }
+  complete() {
+    this.isAnimating = false
 
-  mouseWheelHandler() {
-    const force = 20;
-
-    if (force >= Math.abs(deltaY)) return;
-
-    if (this.isAnimating === false) {
-      switch (scroller.getDirection()) {
-        case 'down':
-          this.slideDown();
-          break;
-        case 'up':
-          this.slideUp();
-          break;
-      }
+    if (this.vars.index === this.max) {
+      this.vars.index = 0
+      TweenLite.set(this.$el, {
+        y: 0,
+      })
     }
+  }
+
+  slideBack() {
+
   }
 
   onSkipTo(e) {
