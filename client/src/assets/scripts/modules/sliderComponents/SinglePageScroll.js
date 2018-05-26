@@ -22,7 +22,7 @@ export default class extends SlideManager {
 
   init() {
     this.index = 1;
-    this.$items = this.$el.children('.js-section');
+    this.$items = this.$el.children();
     this.max = this.$items.length;
 
     this.el.prepend(last(this.$items).cloneNode(true));
@@ -37,16 +37,21 @@ export default class extends SlideManager {
       if (force >= Math.abs(e.deltaY)) return;
 
       if (this.isAnim === false) {
+        //this.slideUp()
         this.slideDown()
       }
     })
-
-    //window.on('wheel', window, function (e) {
-//
-    //}
   }
 
-  handleEvent() {
+  bind() {
+    
+  }
+
+  addEvent() {
+
+  }
+
+  removeEvent() {
 
   }
 
@@ -176,7 +181,7 @@ export default class extends SlideManager {
 
     if (force >= Math.abs(deltaY)) return;
 
-    if (this.isAnime === false) {
+    if (this.isAnim === false) {
       switch (scroller.getDirection()) {
         case 'down':
           this.slideDown();
