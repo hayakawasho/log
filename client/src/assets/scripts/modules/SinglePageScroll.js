@@ -17,11 +17,13 @@ export default class extends AbstractModule {
       speed: 0.9,
     }
     this.vars = {
-      index: 1,
+      startIndex: 1,
       scrollY: 0,
       vh: 0,
       ease: Power2.easeInOut,
     }
+
+    this.index = this.vars.startIndex
 
     this.tween = false
     this.init()
@@ -30,15 +32,13 @@ export default class extends AbstractModule {
   init() {
     this.$items = this.$el.children()
     this.max = this.$items.length
-
     this.el.prepend(last(this.$items).cloneNode(true))
 
     this.getSize()
 
-    TweenLite.set(this.$el, {
+    TweenLite.set(this.el, {
       y: - this.vars.vh,
     })
-
     this.addEvents()
   }
 
@@ -93,58 +93,66 @@ export default class extends AbstractModule {
   }
 
   slideDown() {
-    if (this.max <= this.vars.index) return
+    if (this.max <= this.index) return
 
-    this.vars.index++
-    this.vars.scrollY = - this.vars.vh * this.vars.index
+    this.index++
+    this.vars.scrollY = - this.vars.vh * this.index
     this.slideAnim()
   }
 
   slideUp() {
-    if (this.vars.index === 0) {
-      this.vars.index = this.max - 1
+    if (this.index === 0) {
+      this.index = this.max - 1
       this.vars.scrollY = - this.vars.vh * (this.max - 1)
-      TweenLite.set(this.$el, {
+      TweenLite.set(this.el, {
         y: - this.vars.vh * this.max,
       })
       this.slideAnim()
-    } else if (1 < this.vars.index) {
-      this.vars.index--
-      this.vars.scrollY = - this.vars.vh * this.vars.index
+    } else if (this.vars.startIndex < this.index) {
+      this.index--
+      this.vars.scrollY = - this.vars.vh * this.index
       this.slideAnim()
-    }
-  }
-
-  slideAnim() {
-    this.tween = TweenLite.to(this.$el, this.opts.speed, {
-      y: this.vars.scrollY,
-      ease: this.vars.ease,
-      onStart: () => {
-        this.start()
-      },
-      onComplete: () => {
-        this.complete()
-      }
-    })
-  }
-
-  start() {
-    this.isAnimating = true
-  }
-
-  complete() {
-    this.isAnimating = false
-
-    if (this.vars.index === this.max) {
-      this.vars.index = 0
-      TweenLite.set(this.$el, {
-        y: 0,
-      })
     }
   }
 
   slideBack() {
+    this.vars.scrollY = - this.vars.vh * this.max
+    this.tween = TweenLite.set(this.el, {
+      y: this.vars.scrollY,
+    })
+    this.onNodding(this.nodding.to.y)
 
+    this.index = this.vars.startIndex
+    this.vars.scrollY = - this.vars.vh * this.index
+    this.slideAnim()
+  }
+
+  slideAnim() {
+    this.tween = TweenLite.to(this.el, this.opts.speed, {
+      y: this.vars.scrollY,
+      ease: this.vars.ease,
+      onStart: () => {
+        this.slideStart()
+      },
+      onComplete: () => {
+        this.slideComplete()
+      }
+    })
+  }
+
+  slideStart() {
+    this.isAnimating = true
+  }
+
+  slideComplete() {
+    this.isAnimating = false
+
+    if (this.index === this.max) {
+      this.index = 0
+      TweenLite.set(this.el, {
+        y: 0,
+      })
+    }
   }
 
   onSkipTo(e) {
