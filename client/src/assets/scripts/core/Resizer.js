@@ -1,22 +1,18 @@
 import EventEmitter from 'eventemitter2'
 
-class Resizer extends EventEmitter {
+export default class extends EventEmitter {
   /**
-   * reference https://github.com/ehtb/throttled-resize
+   * cf) https://github.com/ehtb/throttled-resize
    */
   constructor() {
     super()
 
-    this.bind()
+    this.onResize = this.onResize.bind(this)
 
     this.vars = {
       times: 0,
     }
     this.addEvents()
-  }
-
-  bind() {
-    this.onResize = this.onResize.bind(this)
   }
 
   addEvents() {
@@ -62,7 +58,5 @@ class Resizer extends EventEmitter {
     this.removeAllListeners()
   }
 }
-
-export default new Resizer
 
 

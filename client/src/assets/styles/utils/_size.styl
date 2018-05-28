@@ -1,0 +1,36 @@
+$widths ?= {
+  'fit-w': 100%,
+  '1of2': 50%,
+  '1of3': calc(1 / 3 * 100%),
+  '2of3': calc(2 / 3 * 100%),
+  '1of4': 25%,
+  '3of4': 75%,
+  '1of5': 20%,
+  '2of5': 40%,
+  '3of5': 60%,
+  '4of5': 80%,
+  '1of10': 10%,
+  '3of10': 30%,
+  '7of10': 70%,
+  '9of10': 90%,
+};
+
+for $width, $value in $widths
+  .u-{$width}
+    width: $value !important
+
+  @media (--sp)
+    .u-{$width}\@sp
+      width: $value !important
+
+  @media (--pc)
+    .u-{$width}\@pc
+      width: $value !important
+
+.u-fit
+  width 100%
+  height 100%
+
+.u-fit-h
+  height 100% !important
+

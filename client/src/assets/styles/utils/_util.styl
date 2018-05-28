@@ -1,0 +1,259 @@
+/* ------------------------------
+align
+------------------------------ */
+
+.u-ta
+  &-c
+    text-align: center !important
+  &-l
+    text-align: left !important
+  &-r
+    text-align: right !important
+
+.u-va
+  &-t
+    vertical-align: top !important
+  &-m
+    vertical-align: middle !important
+  &-b
+    vertical-align: bottom !important
+
+
+/* ------------------------------
+display
+------------------------------ */
+
+.u-d
+  &-b
+    display: block !important
+  &-tb
+    display: table !important
+  &-tbc
+    display: table-cell !important
+  &-ib
+    display: inline-block !important
+
+
+@media (--sp) {
+  .u-d-n\@sp {
+    display: none !important;
+  }
+}
+
+@media (--pc) {
+  .u-d-n\@pc {
+    display: none !important;
+  }
+}
+
+
+/* ------------------------------
+float
+------------------------------ */
+
+.u-fl
+  &-l
+    float: left !important
+  &-r
+    float: right !important
+  &-n
+    float: none !important
+
+
+/* ------------------------------
+position
+------------------------------ */
+
+.u-pos
+  &-rel
+    position: relative !important
+  &-abs
+    position: absolute !important
+  &-fix
+    position: fixed !important
+  &-tl
+    top: 0
+    left: 0
+  &-t
+    top: 0
+  &-r
+    right: 0
+  &-l
+    left: 0
+  &-tr
+    top: 0
+    right: 0
+  &-bl
+    bottom: 0
+    left: 0
+
+
+
+/* ------------------------------
+font
+------------------------------ */
+.u-fw
+  &-n
+    font-weight: normal !important
+  &-b
+    font-weight: bold !important
+
+
+/* ------------------------------
+other
+------------------------------ */
+.u-ov-h
+  overflow: hidden;
+
+.u-clear
+  clear: both;
+
+.u-cf {
+  //@util clearfix
+}
+
+.u-sr-only
+  //@util hide-visually
+
+.u-content
+  //@include content();
+
+// 折り返さない
+.u-wbr
+  display: inline-block;
+  white-space: nowrap;
+
+
+.u-word-wrap
+  //@util word-wrap
+
+
+.is-pc
+  .u-opa\:hover
+    transition: opacity .4s easeOutExpo;
+    &:hover
+      opacity: .6;
+
+
+// 一定幅超えたら左寄せ、未満はセンタリング
+.u-auto-c
+  text-align: center;
+  &__in
+    display: inline-block;
+    text-align: left;
+
+.u-flex
+  display: flex;
+  &--v-c
+    align-items: center;
+  &--c
+    justify-content: center;
+    align-items: center;
+    align-content: center
+  &--wrap
+    flex-wrap: wrap;
+  &--nowrap
+    flex-wrap: nowrap
+  &--wrap-rev
+    flex-wrap: wrap-reverse;
+  &--row
+    flex-direction: row;
+  &--row-rev
+    flex-direction: row-reverse;
+  &--col
+    flex-direction: column;
+  &--col-rev
+    flex-direction: column-reverse
+  &--jc-spaceBetween
+    justify-content: space-between
+  &--jc-spaceAround
+    justify-content: space-around
+  &--jc-spaceAround
+    justify-content: space-around
+  &--jc-spaceEvenly
+    justify-content: space-evenly
+  &--jc-end
+    justify-content: flex-end
+  &--jc-center
+    justify-content: center
+
+  //&__item {
+    //-as--start {
+    //  align-self: flex-auto
+    //}
+  //}
+
+
+
+/*
+
+
+.u-flex-ai--end {
+  align-items: flex-end
+}
+
+.u-flex-ai--center {
+  align-items: center
+}
+
+.u-flex-ai--start {
+  align-items: flex-start
+}
+
+.u-flex-ai--baseline {
+  align-items: baseline
+}
+
+.u-flex-ai--stretch {
+  align-items: stretch
+}
+
+.u-flex-ac--start {
+  align-content: flex-start
+}
+
+.u-flex-ac--end {
+  align-content: flex-end
+}
+
+.u-flex-ac--center {
+  align-content: center
+}
+
+.u-flex-ac--space-between {
+  align-content: space-between
+}
+
+.u-flex-ac--space-around {
+  align-content: space-around
+}
+
+.u-flex-ac--stretch {
+  align-content: stretch
+}
+
+.u-flex__item-as--auto {
+  align-self: flex-auto
+}
+
+.u-flex__item-as--start {
+  align-self: flex-start
+}
+
+.u-flex__item-as--end {
+  align-self: flex-end
+}
+
+.u-flex__item-as--center {
+  align-self: center
+}
+
+.u-flex__item-as--baseline {
+  align-self: baseline
+}
+
+.u-flex__item-as--stretch {
+  align-self: stretch
+}
+
+*/

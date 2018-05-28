@@ -1,5 +1,5 @@
 import AbstractModule from '~/assets/scripts/modules/abstractModule';
-import { resizer } from '~/assets/scripts/index';
+import { resizer } from '~/assets/scripts/index'
 import util from '~/assets/scripts/utils/util';
 
 export default class extends AbstractModule {

@@ -1,0 +1,14 @@
+/**
+ * These values will not show up in content, but can be
+ * queried by JavaScript to know which breakpoint is active.
+ * Add or remove as many breakpoints as you like.
+ */
+
+body:before {
+  content: 'pc';
+  display: none;
+
+  @media (--sp) {
+    content: 'sp';
+  }
+}

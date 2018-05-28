@@ -1,3 +1,4 @@
+
 export default class Util {
 
   static getViewportSize() {
@@ -50,6 +51,25 @@ export default class Util {
   static getBreakpoint () {
     return window.getComputedStyle(document.body, ':before')
       .getPropertyValue('content').replace(/^["']|["']$/g, '');
+  }
+
+  static prefix(key) {
+    let div = null,
+      vendors = ['ms', 'O', 'Moz', 'Webkit']
+
+    if (!div) div = document.createElement('div')
+
+    const style = div.style
+    // prop exists without prefix
+    if (key in style) return key
+
+    const prop = key.charAt(0).toUpperCase() + key.slice(1)
+    // find the vendor-prefixed prop
+    for (let i = vendors.length; i >= 0; i--) {
+      const name = vendors[i] + prop
+
+      if (name in style) return name
+    }
   }
 
   static clipPathSupported() {
