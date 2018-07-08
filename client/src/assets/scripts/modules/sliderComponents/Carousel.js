@@ -11,16 +11,16 @@ export default class extends Core {
     this.vars = {
       delay: .05,
       ease: Power2.easeInOut,
-      itemWidth: 0
     }
 
     this.tween = null
+    this.itemWidth = 0
     
     this.init()
-  }
+  }   
       
   init() {
-    super.init()
+    this.initElements()
     
     const lastClone = this.$container.children().last().clone()
     this.$container.prepend(lastClone)
@@ -31,20 +31,27 @@ export default class extends Core {
     this.max = $items.length
     this.now = 1   
     
-    this.vars.itemWidth = 100 / this.max    
+    this.itemWidth = 100 / this.max    
       
     this.$container.css({
       width: `${100 * this.max}%`
     })
     $items.css({
-      width: `${this.vars.itemWidth}%`
+      width: `${this.itemWidth}%`
     })
+    // clone幅分、左にずらす
     TweenLite.set(this.$container, {
-      x: `-${this.vars.itemWidth}%`
+      x: `-${this.itemWidth}%`
     }) 
     
     this.addEvents()
   }  
+  
+  initElements() {
+    this.$container = $(this.opts.container, this.el)
+    this.$toPrev = $('.js-slider-toPrev', this.el)
+    this.$toNext = $('.js-slider-toNext', this.el)
+  }     
   
   addEvents() {
     this.$toPrev.on('click', this.toPrev)
@@ -85,9 +92,9 @@ export default class extends Core {
       this.now--      
       this.slideTo()         
     } else if (this.now === 0) {
-      // 最初 + 1 のスライドから前に戻るときは最後のスライドへ    
+      // 最初のスライドから前に戻るときは最後のスライドへ    
       TweenLite.set(this.$container, {      
-        x: `-${this.vars.itemWidth * (this.max - 1)}%`,
+        x: `-${this.itemWidth * (this.max - 1)}%`,
       })
       this.now = this.max - 2 
       this.slideTo()      
@@ -99,7 +106,7 @@ export default class extends Core {
       this.now++
       this.slideTo()         
     } else if (this.now === this.max - 1) {
-      // 最後のスライドから次に行くときは最初 + 1 のスライドへ    
+      // 最後のスライドから次に行くときは最初のスライドへ    
       TweenLite.set(this.$container, {
         x: "0%"
       })      
@@ -112,8 +119,8 @@ export default class extends Core {
     this.slideStart()
     
     this.tween = TweenLite.to(this.$container, this.opts.duration, {
-      x: `-${this.vars.itemWidth * this.now}%`,
-      delay: this.now * this.vars.delay,
+      x: `-${this.itemWidth * this.now}%`,
+      // delay: this.now * this.vars.delay,
       ease: this.vars.ease,    
       onComplete: () => {        
         this.slideComplete()

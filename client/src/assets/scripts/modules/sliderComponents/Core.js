@@ -16,13 +16,9 @@ export default class extends AbstractModule {
         
     this.hammer = null
     this.isAnimating = false
+    this.max = 0
+    this.now = 0
   }
-  
-  init() {
-    this.$container = $(this.opts.container, this.el)
-    this.$toPrev = $('.js-slider-toPrev', this.el)
-    this.$toNext = $('.js-slider-toNext', this.el)
-  }  
   
   addEvents() {
     this.setAutoPlay()
@@ -77,6 +73,6 @@ export default class extends AbstractModule {
   slideComplete() {
     this.isAnimating = false
     this.setAutoPlay()
-  }   
+  }  
 }
 

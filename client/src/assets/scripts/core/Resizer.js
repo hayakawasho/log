@@ -1,62 +1,74 @@
-import EventEmitter from 'eventemitter2'
+import util from '~/assets/scripts/utils/util'
+import { dispatch } from '~/assets/scripts/utils/event'
+//import { ua } from '~/assets/scripts/index'
+ 
+let instance = null,
+  instancesCount = 0,
+  isTicking = false
 
-export default class extends EventEmitter {
-  /**
-   * cf) https://github.com/ehtb/throttled-resize
-   */
+const EVENT_NAME = 'window-resize'  
+
+export default class Resizer {  
+
   constructor() {
-    super()
+    if (typeof window === 'undefined') return null
+
+    instancesCount++
+
+    if (instance) return instance
+
+    instance = this
 
     this.onResize = this.onResize.bind(this)
-
-    this.vars = {
-      times: 0,
-    }
+      
+    this.EVENT_TYPE = 'resize'
+    //this.EVENT_TYPE = ua.isDevice() === 'pc' ? 'resize' : 'orientationchange'    
+    
     this.addEvents()
   }
 
   addEvents() {
-    window.addEventListener('resize', this.onResize)
-    window.addEventListener('orientationchange', this.onResize)
+    window.addEventListener(this.EVENT_TYPE, this.onResize, false)
   }
 
-  removeEvents() {
-    window.removeEventListener('resize', this.onResize)
-    window.removeEventListener('orientationchange', this.onResize)
-  }
+  off() {                                                
+    instancesCount--
 
-  onResize() {
-    if (!this.isStarted) {
-      this.isStarted = true
-      this.vars.times = 0
-
-      this.emit('resize:start')
+    if (instancesCount === 0) {
+      this.destroy()
     }
-
-    if (this.handle !== null) {
-      this.vars.times = 0
-      cancelAnimationFrame(this.handle)
-    }
-
-    this.handle = requestAnimationFrame(function tick() {
-      if (++this.vars.times === 10) {
-        this.handle = null
-        this.isStarted = false
-        this.vars.times = 0
-
-        this.emit('resize:end')
-      } else {
-        this.handle = requestAnimationFrame(
-          tick.bind(this)
-        )
-      }
-    }.bind(this))
   }
 
   destroy() {
-    this.removeEvents()
-    this.removeAllListeners()
+    window.removeEventListener(this.EVENT_TYPE, this.onResize, false)
+
+    instance = null
+    instancesCount = 0      
+  } 
+
+  onResize() {    
+    if (isTicking) return    
+
+    isTicking = true
+        
+    window.requestAnimationFrame(() => {
+      this.update()
+    })
+  }
+  
+  update() {
+    let detail = this.getSize()      
+    
+    dispatch(EVENT_NAME, detail)
+    
+    isTicking = false
+  }  
+  
+  getSize() {
+    return {
+      w: util.getViewportSize().w,
+      h: util.getViewportSize().h
+    }
   }
 }
-
 
