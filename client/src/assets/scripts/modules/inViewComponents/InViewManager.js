@@ -1,12 +1,10 @@
-import AbstractModule from '~/assets/scripts/modules/abstractModule'
+import AbstractModule from '~/assets/scripts/modules/AbstractModule'
 
 export default class extends AbstractModule {
   constructor(opts) {
     super(opts)
 
-    this.opts = {
-      //root: this.$window
-    }
+    this.opts = {}
     this.isIntersected = false
     this.observer = null
   }

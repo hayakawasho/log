@@ -8,20 +8,14 @@ export default class extends AbstractModule {
     super(opts)
 
     this.onScroll = this.onScroll.bind(this)
-
     this.scroller = new Scroller()
+            
+    this.init()
+  }
 
+  init() {
     this.$bar = this.$el.find('.js-progress')
-
-    this.addEvents()
-  }
-
-  addEvents() {
     listen('window-scroll', this.onScroll)
-  }
-
-  removeEvents() {
-    this.scroller.off()
   }
 
   onScroll(e) {
@@ -39,7 +33,7 @@ export default class extends AbstractModule {
   }
 
   destroy() {
-    this.removeEvents()
+    this.scroller.off()
   }
 }
 

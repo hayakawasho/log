@@ -24,7 +24,7 @@ export default class extends AbstractModule {
   }
   
   adjustHeight() {
-    this.el.style.height = `${util.getViewportSize().h}px`;
+    this.el.style.height = `${util.getViewportSize().h}px`
   }
 
   destroy() {
