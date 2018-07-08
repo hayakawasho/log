@@ -1,72 +1,111 @@
-import VisualScroll from 'virtual-scroll'
-import { clamp, bindAll } from 'lodash'
-import { ua } from '~/assets/scripts/index'
 import util from '~/assets/scripts/utils/util'
-import EventEmitter from 'eventemitter2'
+import { dispatch } from '~/assets/scripts/utils/event'
+import VisualScroll from 'virtual-scroll'
+ 
+let instance = null,
+  instancesCount = 0,
+  isTicking = false
 
-class Scroller extends EventEmitter {
+const EVENT_NAME = 'window-scroll',
+  supportsPassiveEvents = util.isSupportPassive()
 
-  static get UP() {
-    return 'up'
-  }
-  static get DOWN() {
-    return 'down'
-  }
+export default class Scroller {  
 
   constructor() {
-    super()
+    if (typeof window === 'undefined') return null
 
-    bindAll(this, 'onScroll', 'onEnterFrame')
+    // Increase reference count
+    instancesCount++
+
+    // If singleton instance exists, return it rather than creating a new one
+    if (instance) return instance
+
+    // Save singleton instance
+    instance = this
+
+    this.onScroll = this.onScroll.bind(this)
+
+    this.vs = new VisualScroll({
+      passive: true
+    })
 
     this.vars = {
       amount: 0,
-      direction: null,
-      targetY: 0,
-      currentY: 0,
-      limitY: 0,
-      el: $$('#js-window')[0] || window
+      direction: null
     }
-
-    this.vs = new VisualScroll()
+  
+    // Use passive listener when supported with fallback to capture option
+    this.listenerOptions = (
+      supportsPassiveEvents ? {
+        passive: true
+      } : true
+    )        
 
     this.addEvents()
   }
 
   addEvents() {
+    window.addEventListener('scroll', this.onScroll, this.listenerOptions)
     this.vs.on(this.onScroll, this)
-		//this.raf(this.update)
   }
 
-  removeEvents() {
-    this.vs.off(this.onScroll, this)
-		//this.raf.cancel(this.update)
-		//this.raf(this.update)
-    //TweenLite.ticker.removeEventListener('tick', this.onEnterFrame)
+  off() {
+    instancesCount--
+
+    // There is not components listening to our event
+    if (instancesCount === 0) {
+      this.destroy()
+    }
   }
 
-  onScroll(e) {
-    this.vars.targetY += e.deltaY * -1
+  destroy() {
+    window.removeEventListener('scroll', this.onScroll, this.listenerOptions)
+    this.vs.destroy()
+
+    // Clear singleton instance and count
+    instance = null
+    instancesCount = 0
+    this.vs = null
+  }
+
+  onScroll(event) {
+    // Fire the event only once per requestAnimationFrame
+    if (isTicking) return
+
+    isTicking = true
+
+    requestAnimationFrame(() => {
+      this.update(event)
+    })
+  }
+
+  update(event) {
+    let detail = this.getPosition(),
+      e = Object.assign(event, detail)
+
+    // Disable overscrolling in safari
+    if (e.scrollY < 0) {
+      e.scrollY = 0
+    }
+
     this.vars.amount = e.deltaY
 
     if (this.getAmount() > 0) {
-      this.vars.direction = Scroller.UP
+      this.vars.direction = 'up'
     } else if (this.getAmount() < 0) {
-      this.vars.direction = Scroller.DOWN
+      this.vars.direction = 'down'
+    }  
+
+    dispatch(EVENT_NAME, e)
+
+    isTicking = false
+  }
+
+  getPosition() {
+    return {
+      scrollY: window.pageYOffset,      
+      scrollX: window.pageXOffset
     }
-
-    this.emit('change')
-  }
-
-  onEnterFrame() {
-    this.emit('tick')
-  }
-
-  getScrollTop() {
-    return this.vars.el.scrollTop
-  }
-
-  getScrollBottom() {
-    return this.getScrollTop() + util.getViewportSize().h
   }
 
   getAmount() {
@@ -76,13 +115,5 @@ class Scroller extends EventEmitter {
   getDirection() {
     return this.vars.direction
   }
-
-  destroy() {
-    this.removeEvents()
-
-    this.vs.destroy()
-    this.vs = null
-  }
 }
 
-export default new Scroller()

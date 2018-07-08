@@ -1,31 +1,34 @@
-import AbstractModule from '~/assets/scripts/modules/abstractModule';
-import { resizer } from '~/assets/scripts/index'
-import util from '~/assets/scripts/utils/util';
+import AbstractModule from '~/assets/scripts/modules/AbstractModule'
+import util from '~/assets/scripts/utils/util'
+import Resizer from '~/assets/scripts/core/Resizer'
+import { listen } from '~/assets/scripts/utils/event'
 
 export default class extends AbstractModule {
   constructor(opts) {
     super(opts)
 
     this.onResize = this.onResize.bind(this)
-    this.onResize()
-    this.addEvents()
+        
+    this.resizer = new Resizer()
+    
+    this.init()
   }
 
-  addEvents() {
-    resizer.on('resize:end', this.onResize)
+  init() {
+    this.adjustHeight()
+    listen('window-resize', this.onResize)
   }
 
-  removeEvents() {
-    resizer.off('resize:end', this.onResize)
+  onResize() {    
+    this.adjustHeight()
   }
-
-  onResize() {
-    const vh = util.getViewportSize().h
-    this.el.style.height = `${vh}px`
+  
+  adjustHeight() {
+    this.el.style.height = `${util.getViewportSize().h}px`;
   }
 
   destroy() {
-    this.removeEvents()
+    this.resizer.off()
   }
 }
 

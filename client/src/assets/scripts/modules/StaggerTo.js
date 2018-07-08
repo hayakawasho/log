@@ -1,24 +1,26 @@
-import AbstractModule from '~/assets/scripts/modules/abstractModule';
+import AbstractModule from '~/assets/scripts/modules/AbstractModule';
 import { toNumber } from 'lodash';
 
 export default class extends AbstractModule {
   constructor(opts) {
-    super(opts);
+    super(opts)
 
     this.opts = {
       delay: toNumber(opts.delay) || 0,
-      stagger: toNumber(opts.stagger) || .02,
+      stagger: toNumber(opts.stagger) || .01,
     }
     this.$target = this.$el.find(opts.target)
-    this.set()
+    this.setStagger()
   }
 
-  set() {
-    for (let i = 0; i < this.$target.length; i++) {
-      const el = this.$target[i];
-      el.style.transitionDelay = `${this.opts.delay + this.opts.stagger * i}s`;
+  setStagger() {
+    for (let i = 0, len = this.$target.length; i < len; i++) {
+      const el = this.$target[i]
+      el.style.transitionDelay = `${this.opts.delay + this.opts.stagger * i}s`
     }
   }
-};
+}
+
+
 
 

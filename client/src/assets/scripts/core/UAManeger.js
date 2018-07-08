@@ -6,22 +6,22 @@ export default class {
     const parser = new UAParser()
     this.ua = parser.getResult()
 
-    this.$body = document.body
+    this.body = document.body
   }
 
   init() {
-    this.$body.classList.add(`is-${this.getDevice()}`)
+    this.body.classList.add(`is-${this.getDevice()}`)
 
     if (this.getOs() === 'ios' || this.getOs() === 'android' ) {
-      this.$body.classList.add(`is-${this.getOs()}`)
+      this.body.classList.add(`is-${this.getOs()}`)
     } else if (this.getDevice() === 'sp' || this.getDevice() === 'tab') {
-      this.$body.classList.add('is-other')
+      this.body.classList.add('is-other')
     }
 
     if (this.getIeVersion() === undefined) {
-      this.$body.classList.add('no-ie')
+      this.body.classList.add('no-ie')
     } else {
-      this.$body.classList.add(`is-ie${this.getIeVersion()}`)
+      this.body.classList.add(`is-ie${this.getIeVersion()}`)
     }
   }
 
