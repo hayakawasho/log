@@ -8,10 +8,11 @@ export default class extends AbstractModule {
     super(opts)
 
     this.onScroll = this.onScroll.bind(this)
-    
+
     this.scroller = new Scroller()
-    this.$bar = this.el.querySelector('.js-progress')
-          
+
+    this.$bar = this.$el.find('.js-progress')
+
     this.addEvents()
   }
 
@@ -20,25 +21,25 @@ export default class extends AbstractModule {
   }
 
   removeEvents() {
-    this.scroller.off() 
+    this.scroller.off()
   }
 
   onScroll(e) {
     this.setProgress(e.detail.scrollY)
   }
-  
+
   setProgress(scrollY) {
-    const pageHeight = document.body.getBoundingClientRect().height,
+    const pageHeight = this.$body.height(),
       limitY = pageHeight - util.getViewportSize().h,
       value = scrollY / limitY
-      
+
     TweenLite.set(this.$bar, {
       scaleX: value,
     })
-  } 
+  }
 
   destroy() {
-    this.removeEvents()    
+    this.removeEvents()
   }
 }
 

@@ -1,6 +1,6 @@
 import util from '~/assets/scripts/utils/util'
 import { dispatch } from '~/assets/scripts/utils/event'
-import VisualScroll from 'virtual-scroll'
+import VisualScroll from './VisualScroll'
  
 let instance = null,
   instancesCount = 0,
@@ -36,9 +36,7 @@ export default class Scroller {
   
     // Use passive listener when supported with fallback to capture option
     this.listenerOptions = (
-      supportsPassiveEvents ? {
-        passive: true
-      } : true
+      supportsPassiveEvents ? { passive: true } : true      
     )        
 
     this.addEvents()
@@ -74,7 +72,7 @@ export default class Scroller {
 
     isTicking = true
 
-    requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
       this.update(event)
     })
   }
